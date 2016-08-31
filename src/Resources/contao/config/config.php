@@ -19,13 +19,13 @@
  * Hooks are stored in a global array called "TL_HOOKS". You can register your
  * own functions by adding them to the array.
  */
-$GLOBALS['TL_HOOKS']['getImage'][] = array('Agoat\Deferredimages', 'saveResizeConfiguration'); 
+$GLOBALS['TL_HOOKS']['getImage'][] = array('Agoat\DeferredImages', 'saveResizeConfiguration'); 
  
 
  /**
  * Cron jobs
  */
-$GLOBALS['TL_CRON']['monthly'][] = array('Agoat\Deferredimages', 'purgeImageGenerationTable');
+$GLOBALS['TL_CRON']['monthly'][] = array('Agoat\DeferredImages', 'purgeImageGenerationTable');
 
 
 /**
@@ -33,7 +33,7 @@ $GLOBALS['TL_CRON']['monthly'][] = array('Agoat\Deferredimages', 'purgeImageGene
  */
 $GLOBALS['TL_PURGE']['tables']['imagegeneration'] = array
 (
-	'callback' => array('Agoat\Deferredimages', 'purgeImageGenerationTable'),
+	'callback' => array('Agoat\DeferredImages', 'purgeImageGenerationTable'),
 	'affected' => array('tl_image_generation')
 );
 
