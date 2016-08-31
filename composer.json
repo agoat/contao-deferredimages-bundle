@@ -1,5 +1,5 @@
 {
-    "name": "agoat/imageondemand-bundle",
+    "name": "agoat/deferredimages-bundle",
     "type": "library",
     "description": "Contao image on demand library",
     "license": "LGPL-3.0+",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Agoat\\ImageondemandBundle\\": "src/"
+            "Agoat\\DeferredImagesBundle\\": "src/"
         }
         "classmap": [
             "src/Resources/contao"
@@ -33,7 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Agoat\\ImageondemandBundle\\Test\\": "tests/"
+            "Agoat\\DeferredImagesBundle\\Test\\": "tests/"
         }
     },
     "extra": {
