@@ -2,7 +2,7 @@ contao_imageondemand:
     path: /assets/images/g/{imgID}
     defaults:
         _scope: frontend
-        _controller: "AgoatImageondemandBundle:Imageondemand:resize"
+        _controller: "AgoatDeferredimagesBundle:Deferredimages:resize"
         imgID: default
     requirements:
         imgID: .*
