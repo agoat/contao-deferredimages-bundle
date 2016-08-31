@@ -8,7 +8,7 @@
  * @license LGPL-3.0+
  */
 
-namespace Agoat\DeferredimagesBundle\Controller;
+namespace Agoat\DeferredImagesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Contao\CoreBundle\Exception\PageNotFoundException;
@@ -24,7 +24,7 @@ use Contao\Image;
  * @author Arne Stappen <https://github.com/agoat>
  *
  */
-class DeferredimagesController
+class DeferredImagesController
 {
  	/**
 	 * Handles the image resize process.
