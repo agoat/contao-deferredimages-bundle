@@ -35,5 +35,5 @@
         "psr-4": {
             "Agoat\\DeferredImagesBundle\\Test\\": "tests/"
         }
-    },
+    }
 }
