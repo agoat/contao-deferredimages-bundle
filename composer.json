@@ -1,6 +1,6 @@
 {
     "name": "agoat/deferredimages-bundle",
-    "type": "library",
+    "type": "contao-bundle",
     "description": "Contao image on demand library",
     "license": "LGPL-3.0+",
     "authors": [
