@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Contao\Database;
 
 
-class Imageondemand
+class DeferredImages
 {
 	// generate special image path to on demand script instead of generating the image now
 	public function saveResizeConfiguration($OriginalPath, $TargetWidth, $TargetHeight, $ResizeMode, $CacheName, $fileObj, $TargetPath, $ImageData) 
