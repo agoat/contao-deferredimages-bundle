@@ -13,5 +13,5 @@ new Agoat\DeferredImagesBundle\AgoatDeferredImagesBundleBundle(),
 Add to app/config/routing.yml (at the beginning)
 ```
 AgoatContaoDeferredImagesBundle:
-    resource: "@AgoatImageondemandBundle/Resources/config/routing.yml"
+    resource: "@AgoatDeferredImagesBundle/Resources/config/routing.yml"
 ```
