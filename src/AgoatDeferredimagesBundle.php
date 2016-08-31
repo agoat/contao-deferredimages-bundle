@@ -8,7 +8,7 @@
  * @license LGPL-3.0+
  */
  
-namespace Agoat\ImageondemandBundle;
+namespace Agoat\DeferredimagesBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -17,6 +17,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-class AgoatImageondemandBundle extends Bundle
+class AgoatDeferredimagesBundle extends Bundle
 {
 }
