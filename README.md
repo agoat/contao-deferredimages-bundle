@@ -7,7 +7,7 @@ ___
 
 Add to app/AppKernel.php (after ContaoCoreBundle)
 ```
-new Agoat\DeferredImagesBundle\AgoatDeferredImagesBundleBundle(),
+new Agoat\DeferredImagesBundle\AgoatDeferredImagesBundle(),
 ```
 
 Add to app/config/routing.yml (at the beginning)
