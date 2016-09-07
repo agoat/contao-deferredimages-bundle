@@ -1,5 +1,5 @@
-# Contao 4 library
-defer image calculation
+# Contao deferred iamges extension
+Contao 4 bundle
 
 ___
 
