@@ -1,4 +1,4 @@
-# Contao deferred iamges extension
+# Contao Deferred Images extension
 Contao 4 bundle
 
 ___
