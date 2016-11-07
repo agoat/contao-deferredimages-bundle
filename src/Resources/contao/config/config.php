@@ -22,12 +22,6 @@
 $GLOBALS['TL_HOOKS']['getImage'][] = array('Agoat\DeferredImages', 'saveResizeConfiguration'); 
  
 
- /**
- * Cron jobs
- */
-$GLOBALS['TL_CRON']['monthly'][] = array('Agoat\DeferredImages', 'purgeImageGenerationTable');
-
-
 /**
  * Purge jobs
  */
