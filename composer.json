@@ -23,7 +23,7 @@
     "autoload": {
         "psr-4": {
             "Agoat\\DeferredImagesBundle\\": "src/"
-        },
+       },
         "classmap": [
             "src/Resources/contao"
         ],
@@ -31,8 +31,10 @@
             "src/Resources/contao/config",
             "src/Resources/contao/dca",
             "src/Resources/contao/languages",
-            "src/Resources/contao/templates"
-        ]
+            "src/Resources/contao/templates",
+            "../../contao/core-bundle/src/Resources/contao/library/Contao/Image.php",
+            "../../contao/core-bundle/src/Resources/contao/library/Contao/Picture.php"
+         ]
     },
     "autoload-dev": {
         "psr-4": {
