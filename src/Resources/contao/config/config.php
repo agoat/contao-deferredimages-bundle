@@ -19,7 +19,7 @@
  * Hooks are stored in a global array called "TL_HOOKS". You can register your
  * own functions by adding them to the array.
  */
-$GLOBALS['TL_HOOKS']['getImage'][] = array('Agoat\DeferredImages', 'saveResizeConfiguration'); 
+//$GLOBALS['TL_HOOKS']['getImage'][] = array('Agoat\DeferredImages', 'saveResizeConfiguration'); 
  
 
 /**
