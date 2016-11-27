@@ -31,9 +31,7 @@
             "src/Resources/contao/config",
             "src/Resources/contao/dca",
             "src/Resources/contao/languages",
-            "src/Resources/contao/templates",
-            "../../contao/core-bundle/src/Resources/contao/library/Contao/Image.php",
-            "../../contao/core-bundle/src/Resources/contao/library/Contao/Picture.php"
+            "src/Resources/contao/templates"
          ]
     },
     "autoload-dev": {
