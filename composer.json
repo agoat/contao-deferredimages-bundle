@@ -25,7 +25,8 @@
             "Agoat\\DeferredImagesBundle\\": "src/"
        },
         "classmap": [
-            "src/Resources/contao"
+            "src/Resources/contao",
+            "src/Resizer.php"
         ],
         "exclude-from-classmap": [
             "src/Resources/contao/config",
