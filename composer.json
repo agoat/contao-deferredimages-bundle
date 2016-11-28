@@ -25,15 +25,13 @@
             "Agoat\\DeferredImagesBundle\\": "src/"
        },
         "classmap": [
-            "src/Resources/contao",
-            "src/Resizer.php"
+            "src/Resources/contao"
         ],
         "exclude-from-classmap": [
             "src/Resources/contao/config",
             "src/Resources/contao/dca",
             "src/Resources/contao/languages",
-            "src/Resources/contao/templates",
-            "../../contao/image/src/Resizer.php"
+            "src/Resources/contao/templates"
          ]
     },
     "autoload-dev": {
