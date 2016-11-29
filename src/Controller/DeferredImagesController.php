@@ -14,9 +14,10 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 
 use Contao\Database;
-use Contao\File;
-use Contao\Image;
-
+use Contao\Image\ResizeOptions;
+use Contao\Image\Image;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
 
 /**
  * Handles the image on demand resizing.
@@ -31,31 +32,52 @@ class DeferredImagesController
 	 *
 	 * @author Arne Stappen <https://github.com/agoat>
 	 */
-	public function resizeAction($imgID)
+	public function resizeAction($name)
 	{
-		
 		$db = Database::getInstance();
 
+		$imagine = \System::getContainer()->get('contao.image.imagine');
+		$filesystem = \System::getContainer()->get('filesystem');
+		
 		// get image resize configuration
-		$resizeConfiguration = $db	->prepare("SELECT width, height, resizeMode, zoom, importantPartX, importantPartY, importantPartWidth, importantPartHeight, OriginalPath FROM tl_image_generation WHERE name=?")
+		$deferredImageConfig = $db	->prepare("SELECT * FROM tl_image_generation WHERE name=?")
 									->limit(1)
-									->execute($imgID);
-		
+									->execute($name);
+
 		// process image
-		if ($resizeConfiguration->numRows) 
+		if ($deferredImageConfig->numRows) 
 		{
-			// resize image
-			$imageObj = new Image(new File($resizeConfiguration->OriginalPath));
-			$imageSRC = $imageObj	->setTargetWidth($resizeConfiguration->width)
-									->setTargetHeight($resizeConfiguration->height)
-									->setResizeMode($resizeConfiguration->resizeMode)
-									->setZoomLevel($resizeConfiguration->zoom)
-									->setImportantPart(array('x' => $resizeConfiguration->importantPartX, 'y' => $resizeConfiguration->importantPartY, 'width' => $resizeConfiguration->importantPartWidth, 'height' => $resizeConfiguration->importantPartHeight))
-									->executeResize()
-									->getResizedPath();
+			$cachePath = 'assets/images/'.substr(strstr($name, '-'), 1, 1);
+			
+			if (!$filesystem->exists($cachePath)) {
+				$filesystem->mkdir($cachePath);
+			}
 		
+			$options = (new ResizeOptions())
+					->setImagineOptions(\System::getContainer()->getParameter('contao.image.imagine_options'))
+					->setBypassCache(\System::getContainer()->getParameter('contao.image.bypass_cache'));
+				
+			
+			$imagineOptions = System::getContainer()->getParameter('contao.image.imagine_options');
+			
+
+			$image = $imagine->open($deferredImageConfig->path)
+				->resize(new Box($deferredImageConfig->sizeW, $deferredImageConfig->sizeH))
+				->crop(new Point($deferredImageConfig->cropX, $deferredImageConfig->cropY), new Box($deferredImageConfig->cropW, $deferredImageConfig->cropH))
+			;
+			
+			if (isset($imagineOptions['interlace'])) {
+				try {
+					$image->interlace($imagineOptions['interlace']);
+				} catch (ImagineRuntimeException $e) {
+					// Ignore failed interlacing
+				}
+			}
+			
+			$image->save($cachePath.'/'.$name, $imagineOptions);
+
 			// send image file
-			return (new BinaryFileResponse($imageSRC));
+			return (new BinaryFileResponse($cachePath.'/'.$name));
 			
 		}
 		// or throw a 404 error
@@ -63,5 +85,7 @@ class DeferredImagesController
 		{
 			throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));
 		}		
+		
+		return '';
 	}
 }

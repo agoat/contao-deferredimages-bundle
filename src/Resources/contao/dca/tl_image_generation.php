@@ -44,45 +44,33 @@ $GLOBALS['TL_DCA']['tl_image_generation'] = array
 		(
 			'sql'                     => "varchar(128) NULL"
 		),
-		'generated' => array
+		'path' => array
 		(
-			'sql'                     => "char(1) NOT NULL default ''"
+			'sql'                     => "varchar(1022) NULL"
 		),
-		'width' => array
+		'sizeW' => array
 		(
 			'sql'                     => "int(10) NULL"
 		),
-		'height' => array
+		'sizeH' => array
 		(
 			'sql'                     => "int(10) NULL"
 		),
-		'resizeMode' => array
-		(
-			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
-		'zoom' => array
+		'cropX' => array
 		(
 			'sql'                     => "int(10) NULL"
 		),
-		'importantPartX' => array
+		'cropY' => array
 		(
-			'sql'                     => "int(10) NOT NULL default '0'"
+			'sql'                     => "int(10) NULL"
 		),
-		'importantPartY' => array
+		'cropW' => array
 		(
-			'sql'                     => "int(10) NOT NULL default '0'"
+			'sql'                     => "int(10) NULL"
 		),
-		'importantPartWidth' => array
+		'cropH' => array
 		(
-			'sql'                     => "int(10) NOT NULL default '0'"
+			'sql'                     => "int(10) NULL"
 		),
-		'importantPartHeight' => array
-		(
-			'sql'                     => "int(10) NOT NULL default '0'"
-		),
-		'OriginalPath' => array
-		(
-			'sql'                     => "varchar(1022) NOT NULL default ''"
-		)
 	)
 );

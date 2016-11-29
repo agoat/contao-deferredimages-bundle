@@ -10,6 +10,7 @@
 
 namespace Contao\Image;
 
+use Contao\Image\ResizeCoordinatesInterface;
 use Contao\ImagineSvg\Image as SvgImage;
 use Contao\ImagineSvg\Imagine as SvgImagine;
 use DOMDocument;
@@ -61,7 +62,7 @@ class Image implements ImageInterface
      * @param ImagineInterface $imagine
      * @param Filesystem|null  $filesystem
      */
-    public function __construct($path, ImagineInterface $imagine, Filesystem $filesystem = null)
+    public function __construct($path, ImagineInterface $imagine, Filesystem $filesystem = null, ResizeCoordinatesInterface $coordinates = null)
     {
         if (null === $filesystem) {
             $filesystem = new Filesystem();
@@ -78,6 +79,7 @@ class Image implements ImageInterface
         $this->path = (string) $path;
         $this->imagine = $imagine;
         $this->filesystem = $filesystem;
+        $this->coordinates = $coordinates;
     }
 
     /**
@@ -133,7 +135,12 @@ class Image implements ImageInterface
                 }
             }
 
-            // Fall back to Imagine
+ 			// For deferred images take the crop size from ResizeCoordinates
+            if (null === $this->dimensions && $this->coordinates !==  null) {
+				$this->dimensions = new ImageDimensions($this->coordinates->getCropSize());
+           }
+
+            // Fall back to Imagine 
             if (null === $this->dimensions) {
                 $this->dimensions = new ImageDimensions($this->imagine->open($this->path)->getSize());
             }
