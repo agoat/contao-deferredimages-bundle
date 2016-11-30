@@ -36,24 +36,23 @@ class DeferredResizer extends ImageResizer
     use FrameworkAwareTrait;
 
     /**
-     * @var LegacyImage
-     */
-    private $legacyImage;
-
-    /**
      * @var ResizeCalculatorInterface
      */
     private $calculator;
-
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
     /**
      * @var string
      */
     private $cacheDir;
 
-   /**
+	/**
      * @var string
      */
     private $deferredImageCache = array();
+
 
     /**
      * Constructor.
@@ -73,6 +72,8 @@ class DeferredResizer extends ImageResizer
         $this->cacheDir = (string) $cacheDir;
         $this->calculator = $calculator;
         $this->filesystem = $filesystem;
+		
+		parent::__construct($cacheDir, $calculator, $filesystem);
     }
 
 	/**
@@ -80,26 +81,26 @@ class DeferredResizer extends ImageResizer
      */
     public function resize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
     {
-dump($options->getTargetPath());
 		if ($image->getDimensions()->isUndefined() || $config->isEmpty()) 
 		{
-            $image = $this->createImage($image, $image->getPath());
+            return parent::resize($image, $config, $options);
         } 
-		else if ($options->getTargetPath() !== null) 
+		else if ($options->getTargetPath() !== null) // Uploads
 		{
-            $image = $this->processResize($image, $config, $options);
+            return parent::resize($image, $config, $options);
 		} 
-		else if ($config->getWidth() == 699 && $config->getHeight() == 524) 
+		else if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
 		{
-            $image = $this->processResize($image, $config, $options);
+            return parent::resize($image, $config, $options);
+		} 
+		else if ($config->getWidth() == 699 && $config->getHeight() == 524) // Image editor in Filetree
+		{
+            return parent::resize($image, $config, $options);
 		} 
 		else 
 		{
-            $image = $this->deferredResize($image, $config, $options);
+            return $this->deferreResize($image, $config, $options);
         }
-		
-		return $image;
-		
     }
 
     /**
@@ -111,40 +112,37 @@ dump($options->getTargetPath());
      *
      * @return ImageInterface
      */
-    private function deferredResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
+    private function deferreResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
     {
 		$coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
 		
-		$deferredCacheKey = $image->getPath().$coordinates->getHash();
+		// Skip resizing if it would have no effect
+		if ($coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) {
+			return $this->createImage($image, $image->getPath());
+		}
+		
+		$cachePath = $this->createCachePath($image->getPath(), $coordinates);
+
+		if ($this->filesystem->exists($this->cacheDir.'/'.$cachePath) ) {
+			return $this->createImage($image, $this->cacheDir.'/'.$cachePath);
+		}
 		
 		// Create deferred image only once
-		if (array_key_exists($image->getPath().$coordinates->getHash(), $this->deferredImageCache))
+		if (array_key_exists($cachePath, $this->deferredImageCache))
 		{
-			return $this->deferredImageCache[$deferredCacheKey];
+			return $this->deferredImageCache[$cachePath];
 		}
 		else
 		{
-			// Skip resizing if it would have no effect
-			if ($coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) {
-				return $this->createImage($image, $image->getPath());
-			}
-			
-			$cachePath = $this->cacheDir.'/'.$this->createCachePath($image->getPath(), $coordinates);
-			
-			if ($this->filesystem->exists($cachePath) && !$options->getBypassCache()) {
-				return $this->createImage($image, $cachePath);
-			}
-
-			$deferredPath = $this->cacheDir.'/'.$this->createDeferredPath($image->getPath(), $coordinates);
-			
-			$deferredImage = $this->createImage($image, $deferredPath, $coordinates);
+			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($cachePath, 1), $coordinates);
 		
 			// Save to database
 			$db = Database::getInstance();
 			
-			$db	->prepare("INSERT IGNORE INTO tl_image_generation (name, path, sizeW, sizeH, cropX, cropY, cropW, cropH) VALUES (?,?,?,?,?,?,?,?)")
+			$db	->prepare("INSERT IGNORE INTO tl_image_deferred (name, cachePath, filePath, sizeW, sizeH, cropX, cropY, cropW, cropH) VALUES (?,?,?,?,?,?,?,?,?)")
 				->execute(
 					basename($deferredImage->getPath()),
+					$cachePath,
 					$image->getPath(),
 					$coordinates->getSize()->getWidth(),
 					$coordinates->getSize()->getHeight(),
@@ -154,79 +152,13 @@ dump($options->getTargetPath());
 					$coordinates->getCropSize()->getHeight()			
 				);
 			
-			$this->deferredImageCache[$deferredCacheKey] = $deferredImage;
+			$this->deferredImageCache[$cachePath] = $deferredImage;
+
+			// Return image (with virtual path)
+			return $deferredImage;
 		}
-	
-		// Return Image (with virtual path)
-		return $deferredImage;
 	}
 	
-     /**
-     * Processes the resize and executes it if not already cached.
-     *
-     * @param ImageInterface               $image
-     * @param ResizeConfigurationInterface $config
-     * @param ResizeOptionsInterface       $options
-     *
-     * @return ImageInterface
-     */
-    private function processResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
-    {
-        $coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
-
-        // Skip resizing if it would have no effect
-        if ($coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) {
-            return $this->createImage($image, $image->getPath());
-        }
-
-        $cachePath = $this->cacheDir.'/'.$this->createCachePath($image->getPath(), $coordinates);
-
-        if ($this->filesystem->exists($cachePath) && !$options->getBypassCache()) {
-            return $this->createImage($image, $cachePath);
-        }
-
-        return $this->executeResize($image, $coordinates, $cachePath, $options);
-    }
-
-    /**
-     * Executes the resize operation via Imagine.
-     *
-     * @param ImageInterface             $image
-     * @param ResizeCoordinatesInterface $coordinates
-     * @param string                     $path
-     * @param ResizeOptionsInterface     $options
-     *
-     * @return ImageInterface
-     *
-     * @internal Do not call this method in your code; it will be made private in a future version
-     */
-    protected function executeResize(ImageInterface $image, ResizeCoordinatesInterface $coordinates, $path, ResizeOptionsInterface $options)
-    {
-        if (!$this->filesystem->exists(dirname($path))) {
-            $this->filesystem->mkdir(dirname($path));
-        }
-
-        $imagineOptions = $options->getImagineOptions();
-
-        $imagineImage = $image
-            ->getImagine()
-            ->open($image->getPath())
-            ->resize($coordinates->getSize())
-            ->crop($coordinates->getCropStart(), $coordinates->getCropSize())
-        ;
-
-        if (isset($imagineOptions['interlace'])) {
-            try {
-                $imagineImage->interlace($imagineOptions['interlace']);
-            } catch (ImagineRuntimeException $e) {
-                // Ignore failed interlacing
-            }
-        }
-
-        $imagineImage->save($path, $imagineOptions);
-
-        return $this->createImage($image, $path);
-    }
 
     /**
      * Creates a new image instance for the specified path.
@@ -241,21 +173,6 @@ dump($options->getTargetPath());
     protected function createImage(ImageInterface $image, $path, $coordinates = null)
     {
         return new Image($path, $image->getImagine(), $this->filesystem, $coordinates);
-    }
-
-    /**
-     * Creates the target cache path.
-     *
-     * @param string                     $path
-     * @param ResizeCoordinatesInterface $coordinates
-     *
-     * @return string The realtive target path
-     */
-    private function createDeferredPath($path, ResizeCoordinatesInterface $coordinates)
-    {
-        $pathinfo = pathinfo($path);
-        $hash = substr(md5(implode('|', [$path, filemtime($path), $coordinates->getHash()])), 0, 9);
-        return 'g/'.$pathinfo['filename'].'-'.substr($hash, 1).'.'.$pathinfo['extension'];
     }
  
 	/**

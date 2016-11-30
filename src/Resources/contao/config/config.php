@@ -15,9 +15,9 @@
 /**
  * Purge jobs
  */
-$GLOBALS['TL_PURGE']['tables']['imagegeneration'] = array
+$GLOBALS['TL_PURGE']['tables']['deferredimages'] = array
 (
-	'callback' => array('Agoat\DeferredImages', 'purgeImageGenerationTable'),
-	'affected' => array('tl_image_generation')
+	'callback' => array('Agoat\\DeferredImages\\Controller', 'purgeDeferredImageTable'),
+	'affected' => array('tl_image_deferred')
 );
 

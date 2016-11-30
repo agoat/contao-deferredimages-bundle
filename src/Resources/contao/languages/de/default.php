@@ -16,5 +16,5 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MOD']['imageondemand'] = 'Image on Demand Erstellung';
-$GLOBALS['TL_LANG']['tl_maintenance_jobs']['imagegeneration'] = array('Bildergenerierungstabelle löschen','Leert die Tabelle <em>tl_image_generation</em>, in der die Daten zur Bildererstellung gespeichert werden. Beim nächsten Seitenaufruf wird die Tabelle wieder mit Daten zu den Bilder, die bei Aufruf generiert werden, gefüllt.');
+$GLOBALS['TL_LANG']['MOD']['deferredimages'] = 'Verzögerte Bildberechnung';
+$GLOBALS['TL_LANG']['tl_maintenance_jobs']['deferredimages'] = array('Bilderberechnungsdaten löschen','Leert die Tabelle <code>tl_image_deferred</code>, in der die Daten zur verzögerten Bilderstellung gespeichert werden.');

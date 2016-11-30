@@ -68,7 +68,7 @@ class Image implements ImageInterface
             $filesystem = new Filesystem();
         }
 
-        if (!$filesystem->exists($path) && strpos($path, '/g/') === false) {
+        if (!$filesystem->exists($path) && strpos($path, '/g/') === false) { // Deferred images don´t exist
             throw new \InvalidArgumentException($path.' does not exist');
         }
 

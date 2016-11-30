@@ -17,7 +17,7 @@
 /**
  * Table tl_cron
  */
-$GLOBALS['TL_DCA']['tl_image_generation'] = array
+$GLOBALS['TL_DCA']['tl_image_deferred'] = array
 (
 
 	// Config
@@ -44,7 +44,11 @@ $GLOBALS['TL_DCA']['tl_image_generation'] = array
 		(
 			'sql'                     => "varchar(128) NULL"
 		),
-		'path' => array
+		'cachePath' => array
+		(
+			'sql'                     => "varchar(255) NULL"
+		),
+		'filePath' => array
 		(
 			'sql'                     => "varchar(1022) NULL"
 		),
