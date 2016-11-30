@@ -38,18 +38,30 @@ class DeferredResizer extends ImageResizer
     /**
      * @var ResizeCalculatorInterface
      */
-    private $calculator;
-    /**
+	private $calculator;
+
+	/**
      * @var Filesystem
      */
-    private $filesystem;
+	private $filesystem;
+
     /**
      * @var string
      */
-    private $cacheDir;
+	private $cacheDir;
+
+	/**
+     * @var ResizeCoordinates
+     */
+    private $coordinates;
 
 	/**
      * @var string
+     */
+    private $cachePath;
+
+	/**
+     * @var array
      */
     private $deferredImageCache = array();
 
@@ -66,9 +78,11 @@ class DeferredResizer extends ImageResizer
         if (null === $calculator) {
             $calculator = new ResizeCalculator();
         }
+		
         if (null === $filesystem) {
             $filesystem = new Filesystem();
         }
+		
         $this->cacheDir = (string) $cacheDir;
         $this->calculator = $calculator;
         $this->filesystem = $filesystem;
@@ -88,7 +102,22 @@ class DeferredResizer extends ImageResizer
 		else if ($options->getTargetPath() !== null) // Uploads
 		{
             return parent::resize($image, $config, $options);
-		} 
+		}
+
+		$this->coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
+		$this->cachePath = $this->createCachePath($image->getPath(), $this->coordinates);
+		
+		if ($this->coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) { // No resizing and moving to assets folder
+			if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) )
+			{
+				return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
+			}
+			else
+			{
+				$options->setTargetPath($this->cacheDir.'/'.$this->cachePath);
+				return parent::resize($image, $config, $options);
+			}
+		}
 		else if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
 		{
             return parent::resize($image, $config, $options);
@@ -114,27 +143,18 @@ class DeferredResizer extends ImageResizer
      */
     private function deferreResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
     {
-		$coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
-		
-		// Skip resizing if it would have no effect
-		if ($coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) {
-			return $this->createImage($image, $image->getPath());
-		}
-		
-		$cachePath = $this->createCachePath($image->getPath(), $coordinates);
-
-		if ($this->filesystem->exists($this->cacheDir.'/'.$cachePath) ) {
-			return $this->createImage($image, $this->cacheDir.'/'.$cachePath);
+		if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) ) {
+			return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
 		}
 		
 		// Create deferred image only once
-		if (array_key_exists($cachePath, $this->deferredImageCache))
+		if (array_key_exists($this->cachePath, $this->deferredImageCache))
 		{
-			return $this->deferredImageCache[$cachePath];
+			return $this->deferredImageCache[$this->cachePath];
 		}
 		else
 		{
-			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($cachePath, 1), $coordinates);
+			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($this->cachePath, 1), $this->coordinates);
 		
 			// Save to database
 			$db = Database::getInstance();
@@ -142,17 +162,17 @@ class DeferredResizer extends ImageResizer
 			$db	->prepare("INSERT IGNORE INTO tl_image_deferred (name, cachePath, filePath, sizeW, sizeH, cropX, cropY, cropW, cropH) VALUES (?,?,?,?,?,?,?,?,?)")
 				->execute(
 					basename($deferredImage->getPath()),
-					$cachePath,
+					$this->cachePath,
 					$image->getPath(),
-					$coordinates->getSize()->getWidth(),
-					$coordinates->getSize()->getHeight(),
-					$coordinates->getCropStart()->getX(),
-					$coordinates->getCropStart()->getY(),
-					$coordinates->getCropSize()->getWidth(),
-					$coordinates->getCropSize()->getHeight()			
+					$this->coordinates->getSize()->getWidth(),
+					$this->coordinates->getSize()->getHeight(),
+					$this->coordinates->getCropStart()->getX(),
+					$this->coordinates->getCropStart()->getY(),
+					$this->coordinates->getCropSize()->getWidth(),
+					$this->coordinates->getCropSize()->getHeight()			
 				);
 			
-			$this->deferredImageCache[$cachePath] = $deferredImage;
+			$this->deferredImageCache[$this->cachePath] = $deferredImage;
 
 			// Return image (with virtual path)
 			return $deferredImage;
