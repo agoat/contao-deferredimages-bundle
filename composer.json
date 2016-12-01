@@ -35,7 +35,7 @@
             "src/Resources/contao/templates",
             "../../contao/core-bundle/src/Resources/contao/library/Contao/File.php",
             "../../contao/core-bundle/src/Resources/contao/library/Contao/Image.php",
-            "../../contao/image/src/Image/Image.php"
+            "../../contao/image/src/Image.php"
          ]
     },
     "autoload-dev": {
