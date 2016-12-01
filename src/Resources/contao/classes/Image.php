@@ -35,7 +35,7 @@ use Imagine\Image\Point;
  *                     ->getResizedPath();
  *
  * @author Leo Feyer <https://github.com/leofeyer>
- * @author Martin Auswöger <https://github.com/ausi>
+ * @author Martin AuswÃ¶ger <https://github.com/ausi>
  * @author Yanick Witschi <https://github.com/Toflar>
  */
 class Image
@@ -457,7 +457,7 @@ class Image
 		}
 
 		$image = \System::getContainer()
-			->get('contao.image.resizer')
+			->get('agoat.image.resizer')
 			->resize(
 				$image,
 				$resizeConfig,
@@ -700,7 +700,7 @@ class Image
 			return '';
 		}
 
-		if (!is_file(TL_ROOT . '/' . $src) && strpos($src, '/g/') === false) // deferred images don´t exist, so don´t care
+		if (!is_file(TL_ROOT . '/' . $src) && strpos($src, '/g/') === false) // deferred images donÂ´t exist, so donÂ´t care
 		{
 			// Handle public bundle resources
 			if (file_exists(TL_ROOT . '/web/' . $src))
