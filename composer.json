@@ -22,11 +22,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Agoat\\DeferredImagesBundle\\": "src/"
+            "Agoat\\DeferredImagesBundle\\": "src/",
+            "Contao\\Image\\": "src/Image/"
        },
         "classmap": [
-            "src/Resources/contao",
-            "src/Image/Image.php"
+            "src/Resources/contao"
         ],
         "exclude-from-classmap": [
             "src/Resources/contao/config",
