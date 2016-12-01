@@ -26,7 +26,8 @@
             "Contao\\Image\\": "src/Image/"
        },
         "classmap": [
-            "src/Resources/contao"
+            "src/Resources/contao",
+            "src/Image/Image.php"
         ],
         "exclude-from-classmap": [
             "src/Resources/contao/config",
