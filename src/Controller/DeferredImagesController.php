@@ -70,7 +70,7 @@ class DeferredImagesController
 			$image->save($cacheDir.'/'.$deferredImageConfig->cachePath, $imagineOptions);
 
 			// Send image to browser
-			return (new BinaryFileResponse($cacheDir.'/'.$deferredImageConfig->cachePath));
+			return ((new BinaryFileResponse($cacheDir.'/'.$deferredImageConfig->cachePath))->setPrivate());
 			
 		}
 		// or throw a 404 error

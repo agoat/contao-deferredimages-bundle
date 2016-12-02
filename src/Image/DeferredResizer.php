@@ -174,6 +174,15 @@ class DeferredResizer extends ImageResizer
 			
 			$this->deferredImageCache[$this->cachePath] = $deferredImage;
 
+			// Disable page caching because of changing image urls
+			global $objPage;
+
+			if ($objPage)
+			{
+				$objPage->cache = false;
+				$objPage->clientCache  = false;
+			}
+		
 			// Return image (with virtual path)
 			return $deferredImage;
 		}
