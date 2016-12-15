@@ -120,14 +120,14 @@ class DeferredResizer extends ImageResizer
         }
         else if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
         {
-            return parent::resize($image, $config, $options);
+        return parent::resize($image, $config, $options);
         } 
         else if ($config->getWidth() == 699 && $config->getHeight() == 524) // Image editor in Filetree
-		{
-            return parent::resize($image, $config, $options);
-		} 
-		else 
-		{
+        {
+        return parent::resize($image, $config, $options);
+        } 
+        else 
+        {
             return $this->deferreResize($image, $config, $options);
         }
     }
