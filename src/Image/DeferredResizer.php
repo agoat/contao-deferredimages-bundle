@@ -95,34 +95,34 @@ class DeferredResizer extends ImageResizer
      */
     public function resize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
     {
-		if ($image->getDimensions()->isUndefined() || $config->isEmpty()) 
-		{
+        if ($image->getDimensions()->isUndefined() || $config->isEmpty()) 
+        {
             return parent::resize($image, $config, $options);
         } 
-		else if ($options->getTargetPath() !== null) // Uploads
-		{
+        else if ($options->getTargetPath() !== null) // Uploads
+        {
             return parent::resize($image, $config, $options);
-		}
+        }
 
-		$this->coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
-		$this->cachePath = $this->createCachePath($image->getPath(), $this->coordinates);
+        $this->coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
+        $this->cachePath = $this->createCachePath($image->getPath(), $this->coordinates);
 		
-		if ($this->coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) { // No resizing and moving to assets folder
-			if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) )
-			{
-				return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
-			}
-			else
-			{
-				$options->setTargetPath($this->cacheDir.'/'.$this->cachePath);
-				return parent::resize($image, $config, $options);
-			}
-		}
-		else if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
-		{
+        if ($this->coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) { // No resizing and moving to assets folder
+            if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) )
+            {
+                return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
+            }
+            else
+            {
+                $options->setTargetPath($this->cacheDir.'/'.$this->cachePath);
+                return parent::resize($image, $config, $options);
+            }
+        }
+        else if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
+        {
             return parent::resize($image, $config, $options);
-		} 
-		else if ($config->getWidth() == 699 && $config->getHeight() == 524) // Image editor in Filetree
+        } 
+        else if ($config->getWidth() == 699 && $config->getHeight() == 524) // Image editor in Filetree
 		{
             return parent::resize($image, $config, $options);
 		} 
