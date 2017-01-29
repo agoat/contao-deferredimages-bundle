@@ -16,5 +16,5 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MOD']['imageondemand'] = 'Image on Demand Generation';
-$GLOBALS['TL_LANG']['tl_maintenance_jobs']['imagegeneration'] = array('Purge the image generation table','Truncates the <em>tl_image_generation</em> table which stores the image on demand data. On the next page generation the table will be filled again with data for the images that have to generated on demand.');
+$GLOBALS['TL_LANG']['MOD']['deferredimages'] = 'Deferred image calculation';
+$GLOBALS['TL_LANG']['tl_maintenance_jobs']['deferredimages'] = array('Purge the deferred images table','Truncates the <code>tl_image_deferred</code> table which stores the resize date for deferred images.');

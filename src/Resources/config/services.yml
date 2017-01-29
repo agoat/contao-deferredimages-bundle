@@ -1,0 +1,12 @@
+services:
+    agoat.image.resizer:
+        class: Agoat\DeferredImagesBundle\Image\DeferredResizer
+        decorates: contao.image.resizer
+        decoration_priority: 10
+        public: false
+        arguments:
+            - "%kernel.root_dir%/../%contao.image.target_path%"
+            - "@contao.image.resize_calculator"
+            - "@filesystem"
+        calls:
+            - ["setFramework", ["@contao.framework"]]

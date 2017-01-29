@@ -1,9 +1,9 @@
 contao_imageondemand:
-    path: /assets/images/g/{imgID}
+    path: /assets/images/g/{name}
     defaults:
         _scope: frontend
         _controller: "AgoatDeferredImagesBundle:DeferredImages:resize"
-        imgID: default
+        name: default
     requirements:
-        imgID: .*
+        name: .*
     

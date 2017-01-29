@@ -11,23 +11,18 @@
  * @copyright	 Arne Stappen 2011-2016
  */
  
-
-
 /**
- * HOOKS
- *
- * Hooks are stored in a global array called "TL_HOOKS". You can register your
- * own functions by adding them to the array.
+ * Register back end module (additional css)
  */
-$GLOBALS['TL_HOOKS']['getImage'][] = array('Agoat\DeferredImages', 'saveResizeConfiguration'); 
- 
+$GLOBALS['BE_MOD']['content']['article']['stylesheet'][] = 'bundles/agoatdeferredimages/style.css';
+$GLOBALS['BE_MOD']['content']['news']['stylesheet'][] = 'bundles/agoatdeferredimages/style.css';
+
 
 /**
  * Purge jobs
  */
-$GLOBALS['TL_PURGE']['tables']['imagegeneration'] = array
+$GLOBALS['TL_PURGE']['tables']['deferredimages'] = array
 (
-	'callback' => array('Agoat\DeferredImages', 'purgeImageGenerationTable'),
-	'affected' => array('tl_image_generation')
+	'callback' => array('Agoat\\DeferredImages\\Controller', 'purgeDeferredImageTable'),
+	'affected' => array('tl_image_deferred')
 );
-
