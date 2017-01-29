@@ -107,24 +107,13 @@ class DeferredResizer extends ImageResizer
         $this->coordinates = $this->calculator->calculate($config, $image->getDimensions(), $image->getImportantPart());
         $this->cachePath = $this->createCachePath($image->getPath(), $this->coordinates);
 		
-        if ($this->coordinates->isEqualTo($image->getDimensions()->getSize()) && !$image->getDimensions()->isRelative()) { // No resizing and moving to assets folder
-            if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) )
-            {
-                return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
-            }
-            else
-            {
-                $options->setTargetPath($this->cacheDir.'/'.$this->cachePath);
-                return parent::resize($image, $config, $options);
-            }
-        }
-        else if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
+        if (in_array(strtolower(pathinfo($image->getPath(), PATHINFO_EXTENSION)), ['svg', 'svgz'])) // SVG images
         {
-        return parent::resize($image, $config, $options);
+            return parent::resize($image, $config, $options);
         } 
         else if ($config->getWidth() == 699 && $config->getHeight() == 524) // Image editor in Filetree
         {
-        return parent::resize($image, $config, $options);
+            return parent::resize($image, $config, $options);
         } 
         else 
         {
