@@ -15,7 +15,13 @@
  * Register back end module (additional css)
  */
 $GLOBALS['BE_MOD']['content']['article']['stylesheet'][] = 'bundles/agoatdeferredimages/style.css';
-$GLOBALS['BE_MOD']['content']['news']['stylesheet'][] = 'bundles/agoatdeferredimages/style.css';
+
+$bundles = \System::getContainer()->getParameter('kernel.bundles');
+
+if (isset($bundles['ContaoNewsBundle']))
+{
+	$GLOBALS['BE_MOD']['content']['news']['stylesheet'][] = 'bundles/agoatdeferredimages/style.css';
+}
 
 
 /**
