@@ -46,7 +46,7 @@ class DeferredImagesController
 		if ($deferredImageConfig->numRows) 
 		{
 			// Generate cache dir the same way as in the contao.image.resizer arguments
-			$cacheDir = \System::getContainer()->getParameter('kernel.root_dir').'/../'.\System::getContainer()->getParameter('contao.image.target_path');
+			$cacheDir = \System::getContainer()->getParameter('contao.image.target_dir');
 
 			if (!$filesystem->exists(dirname($cacheDir.'/'.$deferredImageConfig->cachePath))) {
 				$filesystem->mkdir(dirname($cacheDir.'/'.$deferredImageConfig->cachePath));
