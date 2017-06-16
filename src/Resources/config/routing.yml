@@ -1,4 +1,4 @@
-contao_imageondemand:
+agoat_deferredimages:
     path: /assets/images/g/{name}
     defaults:
         _scope: frontend
