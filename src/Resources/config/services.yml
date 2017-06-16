@@ -5,7 +5,7 @@ services:
         decoration_priority: 10
         public: false
         arguments:
-            - "%kernel.root_dir%/../%contao.image.target_dir%"
+            - "%contao.image.target_dir%"
             - "@contao.image.resize_calculator"
             - "@filesystem"
         calls:
