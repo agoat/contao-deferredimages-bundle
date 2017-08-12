@@ -23,8 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Agoat\\DeferredImagesBundle\\": "src/",
-            "Agoat\\DeferredImages\\Image\\": "src/Image/"
+            "Agoat\\DeferredImagesBundle\\": "src/"
        },
         "classmap": [
             "src/Resources/contao"

@@ -10,7 +10,13 @@
  * @license  	 LGPL-3.0+ 
  * @copyright	 Arne Stappen 2011-2016
  */
+
+/**
+ * Set global class names
+ */
+class_alias('Agoat\DeferredImages\VirtualImage', 'Image');
  
+
 /**
  * Register back end module (additional css)
  */
