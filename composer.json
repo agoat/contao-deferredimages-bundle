@@ -24,11 +24,10 @@
     "autoload": {
         "psr-4": {
             "Agoat\\DeferredImagesBundle\\": "src/",
-            "Contao\\Image\\": "src/Image/"
+            "Agoat\\DeferredImages\\Image\\": "src/Image/"
        },
         "classmap": [
-            "src/Resources/contao",
-            "src/Image/Image.php"
+            "src/Resources/contao"
         ],
         "exclude-from-classmap": [
             "src/Resources/contao/config",
@@ -36,13 +35,7 @@
             "src/Resources/contao/languages",
             "src/Resources/contao/templates",
             "../../contao/core-bundle/src/Resources/contao/library/Contao/File.php",
-            "../../contao/core-bundle/src/Resources/contao/library/Contao/Image.php",
-            "../../contao/image/src/Image.php"
+            "../../contao/core-bundle/src/Resources/contao/library/Contao/Image.php"
          ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Agoat\\DeferredImagesBundle\\Test\\": "tests/"
-        }
     }
 }
