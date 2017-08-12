@@ -117,7 +117,7 @@ class DeferredResizer extends ImageResizer
         } 
         else 
         {
-            return $this->deferreResize($image, $config, $options);
+            return $this->deferredResize($image, $config, $options);
         }
     }
 
@@ -130,7 +130,7 @@ class DeferredResizer extends ImageResizer
      *
      * @return ImageInterface
      */
-    private function deferreResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
+    private function deferredResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
     {
 		if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) ) {
 			return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
