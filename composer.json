@@ -34,8 +34,7 @@
             "src/Resources/contao/dca",
             "src/Resources/contao/languages",
             "src/Resources/contao/templates",
-            "../../contao/core-bundle/src/Resources/contao/library/Contao/File.php",
-            "../../contao/core-bundle/src/Resources/contao/library/Contao/Image.php"
+            "../../contao/core-bundle/src/Resources/contao/library/Contao/File.php"
          ]
     }
 }
