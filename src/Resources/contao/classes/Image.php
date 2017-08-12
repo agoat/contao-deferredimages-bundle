@@ -696,9 +696,15 @@ class Image
 			return '';
 		}
 
+		// Virtual (deferred) images have no width/height
+		if (strpos($src, '/g/') !== false)
+		{
+			return '<img src="' . $static . \System::urlEncode($src) . '" alt="' . \StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
+		}
+		
 		$webDir = \StringUtil::stripRootDir(\System::getContainer()->getParameter('contao.web_dir'));
 
-		if (!is_file(TL_ROOT . '/' . $src) && strpos($src, '/g/') === false) // deferred images don´t exist
+		if (!is_file(TL_ROOT . '/' . $src))
 		{
 			// Handle public bundle resources
 			if (file_exists(TL_ROOT . '/' . $webDir . '/' . $src))

@@ -3,14 +3,16 @@
 /*
  * This file is part of Contao.
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2017 Leo Feyer
  *
  * @license LGPL-3.0+
  */
 
-namespace Contao\Image;
+namespace Agoat\DeferredImagesBundle\Image;
 
 use Contao\Image\ResizeCoordinatesInterface;
+use Contao\Image\ImportantPartInterface;
+use Contao\Image\ImageDimensions;
 use Contao\ImagineSvg\Image as SvgImage;
 use Contao\ImagineSvg\Imagine as SvgImagine;
 use DOMDocument;
@@ -24,11 +26,11 @@ use Webmozart\PathUtil\Path;
 use XMLReader;
 
 /**
- * Image class.
+ * Virtual image class.
  *
- * @author Martin Auswöger <martin@auswoeger.com>
+ * @author Arne Stappen <https://github.com/agoat>
  */
-class Image implements ImageInterface
+class VirtualImage implements \Contao\Image\ImageInterface
 {
     /**
      * @var ImagineInterface

@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2017 Leo Feyer
  *
  * @license LGPL-3.0+
  */
@@ -13,6 +13,7 @@ namespace Contao;
 use Contao\CoreBundle\Exception\ResponseException;
 use Contao\Image\Image as ContaoImage;
 use Contao\Image\ImageDimensions;
+use Patchwork\Utf8;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -172,7 +173,7 @@ class File extends \System
 		{
 			case 'size':
 			case 'filesize':
-				return filesize(TL_ROOT . '/' . $this->strFile);
+				return ($this->exist) ? filesize(TL_ROOT . '/' . $this->strFile) : null;
 				break;
 
 			case 'name':
@@ -222,19 +223,19 @@ class File extends \System
 				break;
 
 			case 'hash':
-				return $this->getHash();
+				return ($this->exist) ? $this->getHash() : null;
 				break;
 
 			case 'ctime':
-				return filectime(TL_ROOT . '/' . $this->strFile);
+				return ($this->exist) ? filectime(TL_ROOT . '/' . $this->strFile) : null;
 				break;
 
 			case 'mtime':
-				return filemtime(TL_ROOT . '/' . $this->strFile);
+				return ($this->exist) ? filemtime(TL_ROOT . '/' . $this->strFile) : null;
 				break;
 
 			case 'atime':
-				return fileatime(TL_ROOT . '/' . $this->strFile);
+				return ($this->exist) ? fileatime(TL_ROOT . '/' . $this->strFile) : null;
 				break;
 
 			case 'icon':
@@ -242,11 +243,18 @@ class File extends \System
 				break;
 
 			case 'dataUri':
-				return 'data:' . $this->mime . ';base64,' . base64_encode($this->getContent());
+				if ($this->extension == 'svgz')
+				{
+					return 'data:' . $this->mime . ';base64,' . base64_encode(gzdecode($this->getContent()));
+				}
+				else
+				{
+					return 'data:' . $this->mime . ';base64,' . base64_encode($this->getContent());
+				}
 				break;
 
 			case 'imageSize':
-				if (empty($this->arrImageSize) && strpos($this->strFile,'/g/') === false) // Deferred images don´t exist
+				if (empty($this->arrImageSize))
 				{
 					$strCacheKey = $this->strFile . '|' . $this->mtime;
 
@@ -774,7 +782,7 @@ class File extends \System
 		(
 			ResponseHeaderBag::DISPOSITION_ATTACHMENT,
 			$filename,
-			$this->basename
+			Utf8::toAscii($this->basename)
 		);
 
 		$response->headers->addCacheControlDirective('must-revalidate');
