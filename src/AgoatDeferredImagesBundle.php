@@ -1,9 +1,9 @@
 <?php
 
 /*
- * Contao ImageOnDemand Extension
+ * Contao Deferred Images Extension
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2017 Arne Stappen (alias aGoat)
  *
  * @license LGPL-3.0+
  */
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * Configures the Contao newsletter bundle.
  *
- * @author Leo Feyer <https://github.com/leofeyer>
+ * @author Arne Stappen (alias aGOAT) <https://github.com/agoat>
  */
 class AgoatDeferredImagesBundle extends Bundle
 {
