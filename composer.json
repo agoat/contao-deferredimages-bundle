@@ -37,6 +37,6 @@
          ]
     },
     "extra": {
-        "contao-manager-plugin": "Agoat\\DeferredImagesBundle\\ContaoManagerPlugin"
+        "contao-manager-plugin": "Agoat\\DeferredImagesBundle\\ContaoManager\\Plugin"
     }
 }
