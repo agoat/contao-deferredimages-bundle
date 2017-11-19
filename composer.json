@@ -36,7 +36,7 @@
             "../../contao/core-bundle/src/Resources/contao/library/Contao/File.php"
          ]
     },
-  "extra": {
-    "contao-manager-plugin": "Agoat\\DeferredImagesBundle\\ContaoManagerPlugin"
-  }
+    "extra": {
+        "contao-manager-plugin": "Agoat\\DeferredImagesBundle\\ContaoManagerPlugin"
+    }
 }
