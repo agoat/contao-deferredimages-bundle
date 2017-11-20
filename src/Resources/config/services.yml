@@ -10,3 +10,9 @@ services:
             - "@filesystem"
         calls:
             - ["setFramework", ["@contao.framework"]]
+
+    contao.routing.image_loader:
+        class: Agoat\DeferredImagesBundle\Routing\ImageControllerLoader
+        public: false
+        tags:
+            - { name: routing.loader }

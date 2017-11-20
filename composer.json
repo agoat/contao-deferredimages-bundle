@@ -35,5 +35,8 @@
             "src/Resources/contao/templates",
             "../../contao/core-bundle/src/Resources/contao/library/Contao/File.php"
          ]
+    },
+    "extra": {
+        "contao-manager-plugin": "Agoat\\DeferredImagesBundle\\ContaoManager\\Plugin"
     }
 }
