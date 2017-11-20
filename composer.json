@@ -1,7 +1,7 @@
 {
     "name": "agoat/contao-deferredimages",
     "description": "Contao 4 deferred images library",
-    "keywords": ["contao", "plugin", "images", "timeout"],
+    "keywords": ["contao", "contao4", "contao-bundle", "plugin", "images", "image-processing"],
     "type": "contao-bundle",
     "license": "LGPL-3.0+",
     "authors": [
