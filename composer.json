@@ -1,7 +1,8 @@
 {
     "name": "agoat/contao-deferredimages",
+    "description": "Contao 4 deferred images library",
+    "keywords": ["contao", "plugin", "images", "timeout"],
     "type": "contao-bundle",
-    "description": "Contao deferred images library",
     "license": "LGPL-3.0+",
     "authors": [
         {
@@ -9,6 +10,10 @@
             "homepage": "https://github.com/agoat"
         }
     ],
+    "support": {
+        "issues": "https://github.com/agoat/contao-deferredimages-bundle/issues",
+        "source": "https://github.com/agoat/contao-deferredimages-bundle"
+    },
     "require": {
         "php": "^5.6|^7.0",
         "symfony/framework-bundle": "~2.8|~3.0",
