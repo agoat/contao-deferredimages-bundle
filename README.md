@@ -3,7 +3,7 @@ ___
 
 
 [![Version](https://img.shields.io/packagist/v/agoat/contao-deferredimages.svg?style=flat-square)](http://packagist.org/packages/agoat/contao-deferredimages)
-[![License](httsp://img.shields.io/packagist/l/agoat/contao-deferredimages.svg?style=flat-square)](http://packagist.org/packages/agoat/contao-deferredimages)
+[![License](https://img.shields.io/packagist/l/agoat/contao-deferredimages.svg?style=flat-square)](http://packagist.org/packages/agoat/contao-deferredimages)
 [![Downloads](https://img.shields.io/packagist/dt/agoat/contao-deferredimages.svg?style=flat-square)](http://packagist.org/packages/agoat/contao-deferredimages)
 
 ---
