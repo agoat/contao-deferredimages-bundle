@@ -10,16 +10,18 @@ ___
 
 ## Install
 ### Contao manager
-Simply search and install
+Search for the package and install it
 ```bash
 agoat/contao-deferredimages
 ```
 
 ### Managed edition
-Add the package (Configuration is done by the manager-bundle)
+Add the package
 ```bash
+# Using the composer
 composer require agoat/contao-deferredimages
 ```
+Registration and configuration is done by the manager-plugin automatically.
 
 ### Standard edition
 Add the package
