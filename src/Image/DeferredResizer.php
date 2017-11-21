@@ -140,6 +140,20 @@ class DeferredResizer extends ImageResizer
 		}
 		else
 		{
+			
+			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($this->cachePath, 1), $this->coordinates);
+		
+			$this->deferredImageCache[$this->cachePath] = $deferredImage;
+
+			// Disable page caching because of changing image urls
+			global $objPage;
+
+			if ($objPage)
+			{
+				$objPage->cache = false;
+				$objPage->clientCache  = false;
+			}
+		
 			// Save to database
 			$db = Database::getInstance();
 			
@@ -155,20 +169,7 @@ class DeferredResizer extends ImageResizer
 					$this->coordinates->getCropSize()->getWidth(),
 					$this->coordinates->getCropSize()->getHeight()			
 				);
-			
-			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($this->cachePath, 1), $this->coordinates);
-		
-			$this->deferredImageCache[$this->cachePath] = $deferredImage;
 
-			// Disable page caching because of changing image urls
-			global $objPage;
-
-			if ($objPage)
-			{
-				$objPage->cache = false;
-				$objPage->clientCache  = false;
-			}
-		
 			// Return image (with virtual path)
 			return $deferredImage;
 		}
@@ -203,6 +204,7 @@ class DeferredResizer extends ImageResizer
     {
         $pathinfo = pathinfo($path);
         $hash = substr(md5(implode('|', [$path, filemtime($path), $coordinates->getHash()])), 0, 9);
+		
         return substr($hash, 0, 1).'/'.$pathinfo['filename'].'-'.substr($hash, 1).'.'.$pathinfo['extension'];
     }
  }
