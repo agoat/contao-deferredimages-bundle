@@ -1,15 +1,15 @@
 <?php
 
-/**
- * Contao Open Source CMS
+/*
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2016 Leo Feyer
- *
- * @package  	 ImageOnDemand
- * @author   	 Arne Stappen
- * @license  	 LGPL-3.0+ 
- * @copyright	 Arne Stappen 2011-2016
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
+
 
 /**
  * Set global class names

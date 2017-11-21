@@ -1,11 +1,13 @@
 <?php
 
 /*
- * This file is part of Contao.
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2016 Leo Feyer
- *
- * @license LGPL-3.0+
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
 
 namespace Agoat\DeferredImagesBundle\Image;
@@ -20,10 +22,9 @@ use Contao\Image\Resizer as ImageResizer;
 use Contao\Database;
 use Symfony\Component\Filesystem\Filesystem;
 
+
 /**
- * Defer resizing of images
- *
- * @author Arne Stappen <https://github.com/agoat>
+ * Image resizer class
  */
 class DeferredResizer extends ImageResizer
 {
@@ -61,11 +62,11 @@ class DeferredResizer extends ImageResizer
 
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param string                         $cacheDir
+     * @param string $cacheDir
      * @param ResizeCalculatorInterface|null $calculator
-     * @param Filesystem|null                $filesystem
+     * @param Filesystem|null $filesystem
      */
     public function __construct($cacheDir, ResizeCalculatorInterface $calculator = null, Filesystem $filesystem = null)
     {
@@ -84,6 +85,7 @@ class DeferredResizer extends ImageResizer
 		parent::__construct($cacheDir, $calculator, $filesystem);
     }
 
+	
 	/**
      * {@inheritdoc}
      */
@@ -111,20 +113,21 @@ class DeferredResizer extends ImageResizer
         } 
         else 
         {
-            return $this->deferredResize($image, $config, $options);
+            return $this->deferResizing($image, $config, $options);
         }
     }
 
+
     /**
-     * Processes the resize and executes it if not already cached.
+     * Save the resize configuration to the database and return a virtual image
      *
-     * @param ImageInterface               $image
+     * @param ImageInterface $image
      * @param ResizeConfigurationInterface $config
-     * @param ResizeOptionsInterface       $options
+     * @param ResizeOptionsInterface $options
      *
      * @return ImageInterface
      */
-    private function deferredResize(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
+    private function deferResizing(ImageInterface $image, ResizeConfigurationInterface $config, ResizeOptionsInterface $options)
     {
 		if ($this->filesystem->exists($this->cacheDir.'/'.$this->cachePath) ) {
 			return $this->createImage($image, $this->cacheDir.'/'.$this->cachePath);
@@ -137,8 +140,6 @@ class DeferredResizer extends ImageResizer
 		}
 		else
 		{
-			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($this->cachePath, 1), $this->coordinates);
-		
 			// Save to database
 			$db = Database::getInstance();
 			
@@ -155,6 +156,8 @@ class DeferredResizer extends ImageResizer
 					$this->coordinates->getCropSize()->getHeight()			
 				);
 			
+			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($this->cachePath, 1), $this->coordinates);
+		
 			$this->deferredImageCache[$this->cachePath] = $deferredImage;
 
 			// Disable page caching because of changing image urls
@@ -173,27 +176,28 @@ class DeferredResizer extends ImageResizer
 	
 
     /**
-     * Creates a new image instance for the specified path.
+     * Creates a new image instance for the specified path
      *
      * @param ImageInterface $image
-     * @param string         $path
+     * @param string $path
      *
      * @return ImageInterface
      *
      * @internal Do not call this method in your code; it will be made private in a future version
      */
-    protected function createImage(ImageInterface $image, $path, $coordinates = null)
+    protected function createImage(ImageInterface $image, $path)
     {
-        return new VirtualImage($path, $image->getImagine(), $this->filesystem, $coordinates);
+        return new VirtualImage($path, $image->getImagine(), $this->filesystem, $this->coordinates);
     }
- 
+
+	
 	/**
-     * Creates the target cache path.
+     * Creates the target cache path
      *
-     * @param string                     $path
+     * @param string $path
      * @param ResizeCoordinatesInterface $coordinates
      *
-     * @return string The realtive target path
+     * @return string The relative target path
      */
     private function createCachePath($path, ResizeCoordinatesInterface $coordinates)
     {
@@ -201,5 +205,4 @@ class DeferredResizer extends ImageResizer
         $hash = substr(md5(implode('|', [$path, filemtime($path), $coordinates->getHash()])), 0, 9);
         return substr($hash, 0, 1).'/'.$pathinfo['filename'].'-'.substr($hash, 1).'.'.$pathinfo['extension'];
     }
-	
  }

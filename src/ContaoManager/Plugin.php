@@ -1,10 +1,13 @@
 <?php
+
 /*
- * This file is part of Contao.
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2017 Leo Feyer
- *
- * @license LGPL-3.0+
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
 
 namespace Agoat\DeferredImagesBundle\ContaoManager;
@@ -22,7 +25,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 /**
  * Plugin for the Contao Manager.
  *
- * @author Andreas Schempp <https://github.com/aschempp>
+ * @return BundleConfig
  */
 class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {
@@ -38,6 +41,10 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
 		];
 	}
 
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
 	{
 		return $resolver

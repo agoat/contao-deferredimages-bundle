@@ -1,21 +1,22 @@
 <?php
 
 /*
- * Contao Deferred Images Extension
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2017 Arne Stappen (alias aGoat)
- *
- * @license LGPL-3.0+
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
- 
+
 namespace Agoat\DeferredImagesBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+
 /**
- * Configures the Contao newsletter bundle.
- *
- * @author Arne Stappen (alias aGOAT) <https://github.com/agoat>
+ * Configures the deferred images bundle.
  */
 class AgoatDeferredImagesBundle extends Bundle
 {

@@ -1,16 +1,14 @@
 <?php
 
-/**
- * Contao Open Source CMS
+/*
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2016 Leo Feyer
- *
- * @package  	 ImageOnDemand
- * @author   	 Arne Stappen
- * @license  	 LGPL-3.0+ 
- * @copyright	 Arne Stappen 2011-2016
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
- 
 
 namespace Agoat\DeferredImages;
 
@@ -18,9 +16,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Contao\Database;
 
 
+/**
+ * Controller class
+ */
 class Controller
 {
-	// purge the image generation table
+	/**
+	 * Purge the deferred images table
+	 */
 	public function purgeDeferredImageTable() 
 	{ 
 		// Truncate the tl_image_generation table
@@ -29,6 +32,5 @@ class Controller
 		
 		// Add a log entry
 		\System::log('Purged the deferred images table', __METHOD__, TL_CRON);
-		
 	}
 }

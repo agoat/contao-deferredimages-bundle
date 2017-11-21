@@ -1,34 +1,36 @@
 <?php
 
 /*
- * Contao ImageOnDemand Extension
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2016 Arne Stappen
- *
- * @license LGPL-3.0+
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
 
 namespace Agoat\DeferredImagesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Contao\CoreBundle\Exception\PageNotFoundException;
-
 use Contao\Database;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 
+
 /**
- * Handles the image on demand resizing.
- *
- * @author Arne Stappen <https://github.com/agoat>
+ * Handles the deferred images
  *
  */
 class DeferredImagesController
 {
  	/**
-	 * Handles the image resize process.
+	 * Renders the image
 	 *
-	 * @author Arne Stappen <https://github.com/agoat>
+	 * @param string $name The image name
+	 *
+	 * @return Response The resized image as BinaryFileResponse
 	 */
 	public function resizeAction($name)
 	{
@@ -37,12 +39,12 @@ class DeferredImagesController
 		$imagine = \System::getContainer()->get('contao.image.imagine');
 		$filesystem = \System::getContainer()->get('filesystem');
 		
-		// get image resize configuration
+		// Get image resizer configuration
 		$deferredImageConfig = $db	->prepare("SELECT * FROM tl_image_deferred WHERE name=?")
 									->limit(1)
 									->execute($name);
 
-		// process image
+		// Render the image
 		if ($deferredImageConfig->numRows) 
 		{
 			// Generate cache dir the same way as in the contao.image.resizer arguments
@@ -73,7 +75,7 @@ class DeferredImagesController
 			return ((new BinaryFileResponse($cacheDir.'/'.$deferredImageConfig->cachePath))->setPrivate());
 			
 		}
-		// or throw a 404 error
+		// Or throw a 404 error
 		else
 		{
 			throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));

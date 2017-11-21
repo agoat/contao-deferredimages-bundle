@@ -1,15 +1,18 @@
 <?php
 
 /*
- * This file is part of Contao.
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2017 Leo Feyer
- *
- * @license LGPL-3.0+
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
 
 namespace Agoat\DeferredImagesBundle\Image;
 
+use Contao\Image\ImageInterface;
 use Contao\Image\ResizeCoordinatesInterface;
 use Contao\Image\ImportantPartInterface;
 use Contao\Image\ImageDimensions;
@@ -25,12 +28,11 @@ use Symfony\Component\Filesystem\Filesystem;
 use Webmozart\PathUtil\Path;
 use XMLReader;
 
+
 /**
- * Virtual image class.
- *
- * @author Arne Stappen <https://github.com/agoat>
+ * Virtual image class
  */
-class VirtualImage implements \Contao\Image\ImageInterface
+class VirtualImage implements ImageInterface
 {
     /**
      * @var ImagineInterface
@@ -57,12 +59,13 @@ class VirtualImage implements \Contao\Image\ImageInterface
      */
     private $importantPart;
 
+	
     /**
      * Constructor.
      *
-     * @param string           $path
+     * @param string $path
      * @param ImagineInterface $imagine
-     * @param Filesystem|null  $filesystem
+     * @param Filesystem|null $filesystem
      */
     public function __construct($path, ImagineInterface $imagine, Filesystem $filesystem = null, ResizeCoordinatesInterface $coordinates = null)
     {
@@ -84,6 +87,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         $this->coordinates = $coordinates;
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -92,6 +96,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $this->imagine;
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -100,6 +105,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $this->path;
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -116,6 +122,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $prefix.$url;
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -151,6 +158,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $this->dimensions;
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -163,6 +171,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $this->importantPart;
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -173,6 +182,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $this;
     }
 
+	
     /**
      * Reads the SVG image file partially and returns the size of it.
      *
@@ -219,6 +229,7 @@ class VirtualImage implements \Contao\Image\ImageInterface
         return $size;
     }
 
+	
     /**
      * Extracts the SVG image size from the given XMLReader object.
      *

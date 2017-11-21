@@ -1,29 +1,28 @@
 <?php
 
-/**
- * Contao Open Source CMS
+/*
+ * Deferred images library for Contao Open Source CMS.
  *
- * Copyright (c) 2005-2017 Leo Feyer
- *
- * @license LGPL-3.0+
+ * @copyright  Arne Stappen (alias aGoat) 2017
+ * @package    contao-deferredimages
+ * @author     Arne Stappen <mehh@agoat.xyz>
+ * @link       https://agoat.xyz
+ * @license    LGPL-3.0
  */
 
 namespace Agoat\DeferredImages;
 
 
 /**
- * Virtual image handling
- *
- * @author Arne Stappen (alias aGOAT) <https://github.com/agoat>
+ * Virtual image class
  */
 class VirtualImage extends \Contao\Image
 {
-
 	/**
 	 * Generate an image tag and return it as string
 	 *
-	 * @param string $src        The image path
-	 * @param string $alt        An optional alt attribute
+	 * @param string $src The image path
+	 * @param string $alt An optional alt attribute
 	 * @param string $attributes A string of other attributes
 	 *
 	 * @return string The image HTML tag
