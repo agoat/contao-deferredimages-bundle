@@ -6,7 +6,8 @@
 
 ## About
 Contao normally generates (resizes) the images on a page during page generation. This can lead to long page load times or, in the worst case, script timeouts due to server restrictions.
-This library defers the image calculation from page generation to the time when the image is loaded in the browser. This results in a very fast loading time of the pages and avoids script time-outs, even with hundreds of images on a page.
+
+This library shifts the image calculation from page generation to the time when the image is loaded in the browser. As a result, pages will have very short loading times and script timeouts are avoided, even with hundreds of images on a page.
 
 
 ## Install
