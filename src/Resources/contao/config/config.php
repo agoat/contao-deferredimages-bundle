@@ -14,7 +14,7 @@
 /**
  * Set global class names
  */
-class_alias('Agoat\DeferredImages\VirtualImage', 'Image');
+class_alias('Agoat\DeferredImagesBundle\Contao\VirtualImage', 'Image');
  
 
 /**
@@ -35,6 +35,6 @@ if (isset($bundles['ContaoNewsBundle']))
  */
 $GLOBALS['TL_PURGE']['tables']['deferredimages'] = array
 (
-	'callback' => array('Agoat\\DeferredImages\\Controller', 'purgeDeferredImageTable'),
+	'callback' => array('Agoat\\DeferredImagesBundle\\Contao\\Controller', 'purgeDeferredImageTable'),
 	'affected' => array('tl_image_deferred')
 );

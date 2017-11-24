@@ -10,7 +10,7 @@
  * @license    LGPL-3.0
  */
 
-namespace Agoat\DeferredImages;
+namespace Agoat\DeferredImagesBundle\Contao;
 
 use Symfony\Component\HttpFoundation\Request;
 use Contao\Database;
