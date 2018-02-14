@@ -36,7 +36,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
 	{
 		return [
 			BundleConfig::create(AgoatDeferredImagesBundle::class)
-				->setLoadAfter([ContaoCoreBundle::class])
+				->setLoadAfter([ContaoCoreBundle::class, AgoatPermalinkBundle::class])
 				->setReplace(['deferredimages']),
 		];
 	}
