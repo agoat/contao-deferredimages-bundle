@@ -13,6 +13,7 @@
 namespace Agoat\DeferredImagesBundle\ContaoManager;
 
 use Agoat\DeferredImagesBundle\AgoatDeferredImagesBundle;
+use Agoat\PermalinkBundle\AgoatPermalinkBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
