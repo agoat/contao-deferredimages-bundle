@@ -60,6 +60,6 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface, Dependent
 	 */
 	public function getPackageDependencies()
     {
-        return ['agoat/contao-permalink'];
+        return ['contao/core-bundle'];
     }
 }
