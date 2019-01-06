@@ -16,7 +16,7 @@ namespace Agoat\DeferredImagesBundle\Contao;
 /**
  * Virtual image class
  */
-class VirtualImage extends \Contao\Image
+class VirtualImage extends Image
 {
 	/**
 	 * Generate an image tag and return it as string

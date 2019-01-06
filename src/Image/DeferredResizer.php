@@ -140,9 +140,9 @@ class DeferredResizer extends ImageResizer
 		}
 		else
 		{
-			
-			$deferredImage = $this->createImage($image, $this->cacheDir.'/g/'.substr($this->cachePath, 1), $this->coordinates);
-		
+            $assetName = basename($this->cachePath);
+            $deferredImage = $this->createImage($image, $this->cacheDir . '/g/' . $assetName, $this->coordinates);
+
 			$this->deferredImageCache[$this->cachePath] = $deferredImage;
 
 			// Disable page caching because of changing image urls
@@ -159,7 +159,7 @@ class DeferredResizer extends ImageResizer
 			
 			$db	->prepare("INSERT IGNORE INTO tl_image_deferred (name, cachePath, filePath, sizeW, sizeH, cropX, cropY, cropW, cropH) VALUES (?,?,?,?,?,?,?,?,?)")
 				->execute(
-					basename($deferredImage->getPath()),
+                    $assetName,
 					$this->cachePath,
 					$image->getPath(),
 					$this->coordinates->getSize()->getWidth(),
