@@ -4,6 +4,8 @@
 [![License](https://img.shields.io/packagist/l/agoat/contao-deferredimages.svg?style=flat-square)](http://packagist.org/packages/agoat/contao-deferredimages)
 [![Downloads](https://img.shields.io/packagist/dt/agoat/contao-deferredimages.svg?style=flat-square)](http://packagist.org/packages/agoat/contao-deferredimages)
 
+#### Now compatible with contao 4.6 !!
+
 ## About
 Contao normally generates (resizes) the images on a page during page generation. This can lead to long page load times or, in the worst case, script timeouts due to server restrictions.
 
