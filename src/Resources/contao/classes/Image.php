@@ -684,13 +684,12 @@ class Image
             }
             else
             {
-                dump('virtual');
                 return '';
             }
         }
 
         $objFile = new \File($src);
-        dump($objFile);
+
         // Strip the web/ prefix (see #337)
         if (strncmp($src, $webDir . '/', \strlen($webDir) + 1) === 0)
         {
