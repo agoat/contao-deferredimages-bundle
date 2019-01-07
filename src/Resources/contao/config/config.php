@@ -15,7 +15,8 @@
  * Set global class names
  */
 class_alias('Agoat\DeferredImagesBundle\Contao\VirtualImage', 'Image');
- 
+class_alias('Agoat\DeferredImagesBundle\Contao\VirtualImage', 'Contao\Image');
+
 
 /**
  * Register back end module (additional css)
