@@ -17,13 +17,9 @@
     "require": {
         "php": "^7.1",
         "ext-gd": "*",
-        "symfony/framework-bundle": "3.4.* || 4.1.* || 4.2.*",
         "contao/core-bundle": "^4.4",
         "contao/image": "^0.3.5",
         "contao/imagine-svg": "^0.1.2 || ^0.2"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.5"
     },
     "replace": {
         "contao-legacy/imageondemand": "*"
